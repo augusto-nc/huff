@@ -21,7 +21,7 @@ int compare(void* a,void* b){
     if(((Node*)a)->qtd>((Node*)b)->qtd )
         return 1;
 
-    if(length((Node*)a)<length((Node*)b))//caso a qantidade de ocorrencia for igual. o criterio é
+    if(length((Node*)a)<length((Node*)b))//caso a qantidade de ocorrencia for igual. o criterio Ã©
         return 1;                       //o tamanho  da arvore
     return -1;                          // se for igual: "a" fica na frente.
 
@@ -37,10 +37,10 @@ void createTable(int* qtd_bits,double_byte* bits,int pos,double_byte current,Nod
         if(node->valor==asterisco || node->valor==escape) //quando o caractere e um asteriscos u um escape, entao sera utilizado dois caracteres para grava-lo
            (*three_size)++;
         (*three_size)++;
-        if(node->left==NULL && node->right==NULL){//Quando left e right são NULL significa que e uma folha
+        if(node->left==NULL && node->right==NULL){//Quando left e right sÃ£o NULL significa que e uma folha
                 byte valor=node->valor;
                 bits[valor]=current;              //Coloca os bits no local correpondente a dterminado byte
-                qtd_bits[valor]=pos+1;            //grava a quantidade bits que são utilizados na representacao
+                qtd_bits[valor]=pos+1;            //grava a quantidade bits que sÃ£o utilizados na representacao
         }else{
             createTable(qtd_bits,bits,pos+1,current,node->left,three_size);
             createTable(qtd_bits,bits,pos+1,set_bit(current,pos+1),node->right,three_size);
@@ -96,11 +96,8 @@ byte* compact(byte* data,long size_of_data,long* size_of_file_out){
     Node* mergeNode;
     int size=heap->size_;
     while(heap->size_>1){ //Realiza o merge dos nodes com menor quantidade de ocorrencias
-        int size=heap->size_;
         aux1= (Node*)dequeue(heap);
         aux2= (Node*)dequeue(heap);
-        byte valor=aux1->valor;
-        valor=aux2->valor;
         mergeNode=createNode();
         mergeNode->qtd=aux1->qtd+aux2->qtd;
         mergeNode->left=aux1;
