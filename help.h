@@ -9,7 +9,7 @@ double_byte set_bit(double_byte b,int i){
 }
 
 int is_bit_i_set(byte c, int i){
-    byte mask = 1 << i;
+    byte mask = 1 << (7-i);
     return mask & c;
 }
 

@@ -6,9 +6,8 @@
 #define error_no_argument 1
 #define error_open_file 2
 
+
 void error(int erro);
-
-
 
 
 
@@ -17,6 +16,8 @@ void error(int erro);
 
 int main(int argc, const char* argv[])
 {
+
+
     if(argc<2){
         error(error_no_argument);
     }
@@ -28,8 +29,17 @@ int main(int argc, const char* argv[])
     }
     int len_name=strlen(argv[1]);
     if(len_name>5){// verifica se o arquivo termina com huff, se verdade, deve ser descompactado.
-        if(argv[len_name-1]=='f' && argv[len_name-2]=='f' && argv[len_name-3]=='u' && argv[len_name-4]=='h' ){
-                //descompactar arquivo.
+        if(argv[1][len_name-1]=='f' && argv[1][len_name-2]=='f' && argv[1][len_name-3]=='u' && argv[1][len_name-4]=='h' ){
+                long size_file_out=0;
+                byte* b=descompact(data,size_of_file,&size_file_out);
+                char new_name[256];
+                strcpy(new_name,argv[1]);
+                if(argc>2){
+                     write_bytes(argv[2],size_file_out,b);
+                }else{
+                    new_name[len_name-5]='\0';
+                    write_bytes(new_name,size_file_out,b);
+                }
                 return 0;
         }
     }

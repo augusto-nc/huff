@@ -17,5 +17,6 @@ Node* createNode();
 
 int length(Node* three);
 
+void insert_(Node* node,byte valor);
 
 #endif // THREE_H_INCLUDED
