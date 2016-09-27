@@ -8,4 +8,9 @@ double_byte set_bit(double_byte b,int i){
     return b | mask;
 }
 
+int is_bit_i_set(byte c, int i){
+    byte mask = 1 << i;
+    return mask & c;
+}
+
 #endif // HELP_H_INCLUDED
