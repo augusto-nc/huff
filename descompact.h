@@ -1,3 +1,4 @@
+
 #ifndef DESCOMPACT_H_INCLUDED
 #define DESCOMPACT_H_INCLUDED
 #include "input.h"

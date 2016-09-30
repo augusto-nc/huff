@@ -19,3 +19,4 @@ int length(Node* three){
     int r= length(three->right);
     return l>r ? l+1 :r+1;
 }
+
