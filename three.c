@@ -10,6 +10,7 @@ n->qtd=0;
 return n;
 }
 
+
 int length(Node* three){
     if(three==NULL){
         return 0;

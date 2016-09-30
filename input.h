@@ -5,6 +5,7 @@
 #define escape 0x5C
 
 typedef unsigned char byte;
+typedef unsigned int four_byte;
 typedef unsigned short double_byte;
 
 byte* read_bytes(char* name_file,long* size_of_bytes);
