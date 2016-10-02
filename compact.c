@@ -123,7 +123,6 @@ byte* compact(byte* data,long size_of_data,long* size_of_file_out){
     for(int i=0;i<256;i++){
         qtd_bits[i]=0;// quantidade bits comeca com 0
         bits[i]=0x0;
-
     }
 
 
@@ -132,13 +131,21 @@ byte* compact(byte* data,long size_of_data,long* size_of_file_out){
     unsigned short three_size=0; //tamanho da arvore binaria
 
     createTable(qtd_bits,bits,-1,0x0,root,&three_size);
+    /*
+    for(int i=0;i<256;i++){
+        if(qtd_bits[i]>0){
+                printf("%d %c  qtd: %d cod: %ud\n",i,(byte)i,qtd_bits[i],bits[i]);
+        }
+    }
+    */
+
+
     long bytes_file_out=0;
     byte trash=0;
     int bit=0;
 
     for(int i=0;i<size_of_data;i++){// contando quantidade bytes que os dados terao na saida
         d=data[i];
-
         bit+=qtd_bits[d];// incrementa "bit" com quantidade de bits do byte "d".
         bytes_file_out+=bit/8;
         bit=bit%8;
@@ -149,6 +156,8 @@ byte* compact(byte* data,long size_of_data,long* size_of_file_out){
         bytes_file_out++;
     }
     byte* bytes=(byte*)malloc(sizeof(byte)*(bytes_file_out+2+three_size));// Alocao os bytes do arquivo de saida
+
+
 
     bytes[0]=trash;       //colocar o trash no comeco do arquivo
     bytes[0]=bytes[0]<<5; //move trash para esquerda para ocupar apenas os 3 primeiros bits
@@ -161,9 +170,14 @@ byte* compact(byte* data,long size_of_data,long* size_of_file_out){
 
     writeThree(root,bytes,&index); //escreve a arvore no array de bytes de saida
 
+     for(long i=2+three_size;i<bytes_file_out+2+three_size;i++){
+        bytes[i]=0;
+    }
+
     index=2+three_size;
 
     four_byte aux_dt;
+    byte* aux_byte=&aux_dt;
     bit=0;
     int qAux;
 
@@ -174,17 +188,16 @@ byte* compact(byte* data,long size_of_data,long* size_of_file_out){
 
         qAux=qtd_bits[d]; // qAux recebe a quantidade bits do byte "d"
         while(qAux>0){//continuar até gravar todos os bits
-            bytes[index]= bytes[index] | ((byte)(aux_dt>>24))>>bit; // aux_byte[1]>>bit; // aux_byte[1] acessa o byte mais a esquerda de aux_dt.
+            bytes[index]= bytes[index] | (aux_byte[3]>>bit);//aux_byte[1]>>bit; // aux_byte[1] acessa o byte mais a esquerda de aux_dt.
             //                          "bit" armazena a quantidade de bits que ja foram gravados na posicao index,
             //                           por isso é necessario deslocar para direita para não sobescrever os bits ja gravados
-
-            if(8-bit>qAux){ // quando quantidade de bits gravados é maior que os bits que restavam (qAux)
-                bit+=qAux; // incrementa a quantidade de bits gravados na posicao "index"
-                qAux=0;   //todos o bits foram gravados
-            }else{ //quando é menor
+            if(8-bit>qAux){     // quando quantidade de bits gravados é maior que os bits que restavam (qAux)
+                bit+=qAux;      // incrementa a quantidade de bits gravados na posicao "index"
+                qAux=0;         // todos o bits foram gravados
+            }else{              //quando é menor
                 qAux-=(8-bit); //subtrai a quantidade bits gravados de qAux.
                 aux_dt=aux_dt<<(8-bit); //aux_dt é deslocado para esquerda na quantidade de bits que ja foram gravados
-                bit=0;  //nao tem mais espaco em na posicao "index" para gravar, então passar para a proxima posicao
+                bit=0;          //nao tem mais espaco em na posicao "index" para gravar, então passar para a proxima posicao
                 index++;
             }
         }

@@ -24,7 +24,7 @@ return buffer;
 
 void write_bytes(char* name_file,long size_of_bytes,byte* bytes){
     FILE* fileptr = fopen(name_file, "wb");  // Abre arquivo no modo binario
-    fwrite(bytes,1,size_of_bytes,fileptr); //Escreve os bytes do arquivo
+    fwrite(bytes,sizeof(byte),size_of_bytes,fileptr); //Escreve os bytes do arquivo
     fclose(fileptr); //fecha o arquivo.
 }
 

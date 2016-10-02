@@ -72,6 +72,7 @@ byte* rewrite(byte *data, int pos , Node* root , long size_of_file_compacted, lo
                 if(current->left == NULL ){
 
                     descompac_file[loc++] = current->valor;
+                    byte valor=current->valor;
                     current = root;
                 }
             }
