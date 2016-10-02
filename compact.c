@@ -7,7 +7,7 @@
 
 /*
 Funcao que determina se um no fica na frente do outro.
-retorna 1 se b deve ficar na frente de a ou -1 se a deve ficar na frente de b.
+retorna 1 se "b" deve ficar na frente de "a" ou -1 se "a" deve ficar na frente de "b".
 
 */
 int compare(void* a,void* b){
@@ -171,13 +171,13 @@ byte* compact(byte* data,long size_of_data,long* size_of_file_out){
     writeThree(root,bytes,&index); //escreve a arvore no array de bytes de saida
 
      for(long i=2+three_size;i<bytes_file_out+2+three_size;i++){
-        bytes[i]=0;
+        bytes[i]=0;     //limpa eventual lixo que tenha no vetor de bytes de saida
     }
 
     index=2+three_size;
 
     four_byte aux_dt;
-    byte* aux_byte=&aux_dt;
+    byte* aux_byte=&aux_dt;//aux_byte é usado para acessar um byte especifico de aux_dt
     bit=0;
     int qAux;
 
@@ -188,17 +188,17 @@ byte* compact(byte* data,long size_of_data,long* size_of_file_out){
 
         qAux=qtd_bits[d]; // qAux recebe a quantidade bits do byte "d"
         while(qAux>0){//continuar até gravar todos os bits
-            bytes[index]= bytes[index] | (aux_byte[3]>>bit);//aux_byte[1]>>bit; // aux_byte[1] acessa o byte mais a esquerda de aux_dt.
+            bytes[index]= bytes[index] | (aux_byte[3]>>bit);// aux_byte[3] acessa o byte mais a esquerda de aux_dt.
             //                          "bit" armazena a quantidade de bits que ja foram gravados na posicao index,
             //                           por isso é necessario deslocar para direita para não sobescrever os bits ja gravados
             if(8-bit>qAux){     // quando quantidade de bits gravados é maior que os bits que restavam (qAux)
                 bit+=qAux;      // incrementa a quantidade de bits gravados na posicao "index"
-                qAux=0;         // todos o bits foram gravados
-            }else{              //quando é menor
+                qAux=0;         // todos o bits foram gravados entap qAux fica com 0
+            }else{               // quando quantidade de bits gravados é menor/igual que os bits que restavam (qAux)
                 qAux-=(8-bit); //subtrai a quantidade bits gravados de qAux.
-                aux_dt=aux_dt<<(8-bit); //aux_dt é deslocado para esquerda na quantidade de bits que ja foram gravados
-                bit=0;          //nao tem mais espaco em na posicao "index" para gravar, então passar para a proxima posicao
-                index++;
+                aux_dt=aux_dt<<(8-bit); //aux_dt é deslocado para esquerda na quantidade de bits que  foram gravados
+                bit=0;          
+                index++; //nao tem mais espaco em na posicao "index" para gravar, então passar para a proxima posicao
             }
         }
     }
