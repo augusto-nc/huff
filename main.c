@@ -12,60 +12,14 @@
 
 void error(int erro);
 
-int compare2(void* a,void* b){
-    if(a==NULL)
-        return 1;
-    if(b==NULL)
-        return -1;
 
-    if(((Node*)a)->qtd<((Node*)b)->qtd )
-        return -1;
-    if(((Node*)a)->qtd>((Node*)b)->qtd )
-        return 1;
-
-    if(length((Node*)a)<length((Node*)b))//caso a qantidade de ocorrencia for igual. o criterio é
-        return 1;                       //o tamanho  da arvore
-    return -1;                          // se for igual: "a" fica na frente.
-
-}
 
 
 
 
 int main(int argc, const char* argv[])
 {
-    /*
-    Node* nodes[256];      //array com todos os tipos de bytes
-
-    for(int i=0;i<256;i++){//criando um no para cada tipo de byte existente
-        nodes[i]=createNode();
-        nodes[i]->qtd=i;
-}
-
-    Heap* heap= createHeap(256,compare2);//Cria a heap
-
-     for(int i=0;i<256;i++){//Percorre todos os tipos de bytes
-            enqueue(heap,(void*)nodes[i]);
-
-    }
-
-    for(int i=0;i<128;i++){//Percorre todos os tipos de bytes
-            printf("%d\n",((Node*)dequeue(heap))->qtd);
-    }
-            printf("\n\n\n\n");
-
-
-     for(int i=0;i<128;i++){//Percorre todos os tipos de bytes
-            nodes[i]->qtd=i*5;
-            enqueue(heap,(void*)nodes[i]);
-    }
-     for(int i=0;i<256;i++){//Percorre todos os tipos de bytes
-            printf("%d\n",((Node*)dequeue(heap))->qtd);
-    }
-
-
-   return 0;
-   */
+    
     if(argc<2){
         error(error_no_argument);
     }
