@@ -64,34 +64,6 @@ void* dequeue(Heap* heap){
     max_heapify(heap,1);
 
     return max;
-
-    heap->array_[heap->size_]=NULL;
-    int i=1;
-    int left;
-    int right;
-    heap->size_--;
-     left=get_left_index(i);
-     right=get_right_index(i);
-     while(1){     // Re-ordena Heap
-
-        if(left>heap->length || (heap->array_[left]==NULL && heap->array_[right]==NULL)){
-            break;
-        }
-
-
-        if(heap->compare(heap->array_[left],heap->array_[right])>0){
-            swap_(&(heap->array_[i]),&(heap->array_[right]));
-            //heap->array_[i]=heap->array_[right];
-            i=right;
-        }else{
-            swap_(&(heap->array_[i]),&(heap->array_[left]));
-           // heap->array_[i]=heap->array_[left];
-            i=left;
-        }
-         left=get_left_index(i);
-         right=get_right_index(i);
-    }
-
 }
 
 void max_heapify(Heap* heap,int index){
