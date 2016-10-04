@@ -1,0 +1,21 @@
+# depslib dependency file v1.0
+1475522379 source:c:\users\jose_augusto\desktop\estruturas\main.c
+	"avl.h"
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+
+1475410918 source:c:\users\jose_augusto\desktop\estruturas\three.c
+	"three.h"
+
+1475408728 c:\users\jose_augusto\desktop\estruturas\three.h
+	<stdio.h>
+
+1475410918 source:c:\users\jose_augusto\desktop\estruturas\avl.c
+	"avl.h"
+	"three.h"
+
+1475330360 c:\users\jose_augusto\desktop\estruturas\avl.h
+	"three.h"
+

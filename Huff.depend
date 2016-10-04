@@ -1,0 +1,50 @@
+# depslib dependency file v1.0
+1475520957 source:c:\users\jose_augusto\desktop\huff\compact.c
+	"compact.h"
+	"heap.h"
+	"three.h"
+	"help.h"
+
+1473624593 c:\users\jose_augusto\desktop\huff\compact.h
+	"input.h"
+
+1475068492 c:\users\jose_augusto\desktop\huff\input.h
+	<stdio.h>
+
+1473603109 c:\users\jose_augusto\desktop\huff\heap.h
+
+1475260891 c:\users\jose_augusto\desktop\huff\three.h
+	"input.h"
+	"stdio.h"
+
+1475261274 c:\users\jose_augusto\desktop\huff\help.h
+	"input.h"
+
+1475413122 source:c:\users\jose_augusto\desktop\huff\descompact.c
+	"descompact.h"
+
+1475261297 c:\users\jose_augusto\desktop\huff\descompact.h
+	"input.h"
+	"three.h"
+
+1475520957 source:c:\users\jose_augusto\desktop\huff\heap.c
+	"heap.h"
+	<stdlib.h>
+	"math.h"
+	<stdio.h>
+
+1475365515 source:c:\users\jose_augusto\desktop\huff\input.c
+	"input.h"
+
+1475520957 source:c:\users\jose_augusto\desktop\huff\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"input.h"
+	"compact.h"
+	"heap.h"
+	"three.h"
+
+1475261048 source:c:\users\jose_augusto\desktop\huff\three.c
+	"three.h"
+
