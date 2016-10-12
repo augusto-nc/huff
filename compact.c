@@ -131,13 +131,6 @@ byte* compact(byte* data,long size_of_data,long* size_of_file_out){
     unsigned short three_size=0; //tamanho da arvore binaria
 
     createTable(qtd_bits,bits,-1,0x0,root,&three_size);
-    /*
-    for(int i=0;i<256;i++){
-        if(qtd_bits[i]>0){
-                printf("%d %c  qtd: %d cod: %ud\n",i,(byte)i,qtd_bits[i],bits[i]);
-        }
-    }
-    */
 
 
     long bytes_file_out=0;
@@ -155,15 +148,12 @@ byte* compact(byte* data,long size_of_data,long* size_of_file_out){
         trash=8-bit; //tamanho do trash
         bytes_file_out++;
     }
-    byte* bytes=(byte*)malloc(sizeof(byte)*(bytes_file_out+2+three_size));// Alocao os bytes do arquivo de saida
-
-
+    byte* bytes=(byte*)malloc(sizeof(byte)*(bytes_file_out+2+three_size)+max_shift);// Alocao os bytes do arquivo de saida
 
     bytes[0]=trash;       //colocar o trash no comeco do arquivo
     bytes[0]=bytes[0]<<5; //move trash para esquerda para ocupar apenas os 3 primeiros bits
 
     byte aux=(byte)(three_size>>8);//
-
     bytes[0]=bytes[0] | aux; //coloca os 5 bits do tamanho da arvore no primeiro byte do arquivo
     bytes[1]=(byte)three_size; //coloca o resto do tamanho da arvore no outro byte do arquivo
     int index=1;
@@ -197,7 +187,7 @@ byte* compact(byte* data,long size_of_data,long* size_of_file_out){
             }else{               // quando quantidade de bits gravados é menor/igual que os bits que restavam (qAux)
                 qAux-=(8-bit); //subtrai a quantidade bits gravados de qAux.
                 aux_dt=aux_dt<<(8-bit); //aux_dt é deslocado para esquerda na quantidade de bits que  foram gravados
-                bit=0;          
+                bit=0;
                 index++; //nao tem mais espaco em na posicao "index" para gravar, então passar para a proxima posicao
             }
         }

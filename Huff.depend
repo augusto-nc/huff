@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1475520957 source:c:\users\jose_augusto\desktop\huff\compact.c
+1476290010 source:c:\users\jose_augusto\desktop\huff\compact.c
 	"compact.h"
 	"heap.h"
 	"three.h"
@@ -8,7 +8,7 @@
 1473624593 c:\users\jose_augusto\desktop\huff\compact.h
 	"input.h"
 
-1475068492 c:\users\jose_augusto\desktop\huff\input.h
+1476225809 c:\users\jose_augusto\desktop\huff\input.h
 	<stdio.h>
 
 1473603109 c:\users\jose_augusto\desktop\huff\heap.h
@@ -36,7 +36,7 @@
 1475365515 source:c:\users\jose_augusto\desktop\huff\input.c
 	"input.h"
 
-1475520957 source:c:\users\jose_augusto\desktop\huff\main.c
+1476281014 source:c:\users\jose_augusto\desktop\huff\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -44,6 +44,17 @@
 	"compact.h"
 	"heap.h"
 	"three.h"
+	"string.h"
+	"openssl/md5.h"
+
+1167400542 c:\program files (x86)\gnuwin32\include\openssl\md5.h
+	<openssl/e_os2.h>
+	<stddef.h>
+
+1134928626 c:\program files (x86)\gnuwin32\include\openssl\e_os2.h
+	<openssl/opensslconf.h>
+
+1219434398 c:\program files (x86)\gnuwin32\include\openssl\opensslconf.h
 
 1475261048 source:c:\users\jose_augusto\desktop\huff\three.c
 	"three.h"

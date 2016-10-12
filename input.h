@@ -3,6 +3,8 @@
 #include <stdio.h>
 #define asterisco 0x2A
 #define escape 0x5C
+#define max_shift 295
+
 
 typedef unsigned char byte;
 typedef unsigned int four_byte;
