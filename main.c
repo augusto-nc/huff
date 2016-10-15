@@ -65,7 +65,7 @@ void compress(int nivel,char* adr_file,char* relativePath,char* senha){
     }
     if(!(sizeExt>0 && sizeExt<7))// se extensao tiver fora do intervalo
         error(error_extensao);
-    strcpy(ext,&(adr_file[len_name-sizeExt]));//copia a extensao para a string ext
+    strcpy(ext,&(adr_file[len_name-sizeExt]));//copia a extensao para a string 'ext'
 //#################################################################################
 
 
@@ -102,8 +102,6 @@ void compress(int nivel,char* adr_file,char* relativePath,char* senha){
     strcat(name_file,&(adr_file[len_name-nameSize-sizeExt-1]));//copia o nome do arquivo para name_file
     nameSize+=auxNameSize;
     name_file[nameSize]='\0';
-    printf("name file %s\n",name_file);
-    printf("relative path %s\n",relativePath);
 
 
 //###########################################################################
@@ -208,7 +206,7 @@ void descompress(int nivel,char* adr_file,char* senha,byte* data,long size_of_fi
 
 
     //#########################################################
-    //################## COPIANDO EXTENSAO E SENHA PARA SEUS ARRAYS
+    //################## COPIANDO EXTENSAO E SENHA PARA SEU ARRAY
     byte senhaMd5[senha_size];//array com o hash da senha em Md5
     int i;
     for(i=0;i<size_ext;i++){
@@ -360,12 +358,12 @@ void descompressAll(int nivel,char* adr_file,char* senha){
 //############## senha : senha passada pelo usuario pelo usuario
 //############## listFiles :  Lista de arquivo e pastas compactados
 
-void compactAllFiles(DIR* folder,char* adr_folder,char* relative_path,char* senha,List* listFiles){
+void compactAllFiles(DIR* folder,char* adr_folder,char* relative_path,char* senha,List* listFiles,int nivel){
         struct dirent *ent; //informacoes de um arquivo ou pasta.
         char subFile[256];
         char subRelativePath[256];// relative Path de uma pasta dentro de folder
 
-        while (ent = readdir(folder))  //percorre todos os arquivos e pastas de folder ate a saida ser NULL
+        while (ent = readdir(folder)){  //percorre todos os arquivos e pastas de folder ate a saida ser NULL
             if(strcmp(ent->d_name,".")==0  || strcmp(ent->d_name,"..")==0 )//Ignora informacao que nao sao é pastas ou arquivos
                 continue;
 
@@ -390,19 +388,19 @@ void compactAllFiles(DIR* folder,char* adr_folder,char* relative_path,char* senh
                 add(listFiles,(void*)info); //adiciona à lista de pastas e arquivos
                 //#######################
 
-                compactAllFiles(subFolder,subFile,subRelativePath,senha,listFiles);//compacata todos os arquivos dessa subpasta
+                compactAllFiles(subFolder,subFile,subRelativePath,senha,listFiles,nivel);//compacata todos os arquivos dessa subpasta
                 closedir(subFolder);
             }else{
                 InfoFile* info= malloc(sizeof(InfoFile));
                 info->file=1; //file=1 significa que um arquivo
                 info->path=malloc(sizeof(char)*strlen(subFile)+4);// aloca o tamanho de subfile
-                //                                                +4 para garantir que vai caber a extensao .hufT
+                //                                                +4 para garantir que vai caber a extensao .huff
 
                 char* last=strrchr(subFile,'.');//acha o ponto de subfile
                 strcpy(info->path,subFile);    // copia o nome do arquivo para info->path
                 strcpy(&(info->path[last-subFile+1]),"huff\0"); //substitui a extensao por .huff
 
-                compress(1,subFile,relative_path,senha);// compacta o arquivo  e o grava no mesmo
+                compress(nivel,subFile,relative_path,senha);// compacta o arquivo  e o grava no mesmo
                 // endereco que info->path
                 add(listFiles,(void*)info);// adiciona o arquivo na lista de arquivos
             }
@@ -410,8 +408,10 @@ void compactAllFiles(DIR* folder,char* adr_folder,char* relative_path,char* senh
 }
 
 
-
-
+//argv[0] huff.exe
+//argv[1] arquivo à ser compacatado ou descompactado
+//argv[2] senha
+//arvv[3] nivel
 int main(int argc, const char* argv[])
 {
     if(argc<3){
@@ -419,8 +419,13 @@ int main(int argc, const char* argv[])
        return 0;
     }
 
+      int nivel=1;
+        if(argc>3){// ser tiver passado mais de 2 argumentos
+            nivel=atoi(argv[3]); //pega o nivel
+        }
+
     DIR* dir=opendir(argv[1]);// tenta abri como uma pasta
-    if(dir){ // Se for dirferente de NULL então é uma pasta
+    if(dir){ // Se for diferente de NULL então é uma pasta
 
         //#################################################
         //############### DEFINE A relativePath
@@ -428,6 +433,7 @@ int main(int argc, const char* argv[])
         char* relativePath=strrchr(argv[1],'/');//acha a ultima barra
         if(relativePath==NULL)
             relativePath=strrchr(argv[1],'\\');
+
         if(relativePath==NULL){//se for NULL entao nao existe pasta anteriores
             relativePath=argv[1];// relativePath vai ser igua a argv[1]
         }else{
@@ -438,14 +444,14 @@ int main(int argc, const char* argv[])
 
 
         List* listFiles=createList();
-        compactAllFiles(dir,argv[1],relativePath,argv[2],listFiles);//compacta todos os arquivos e subPastas de relativePath
+        compactAllFiles(dir,argv[1],relativePath,argv[2],listFiles,nivel);//compacta todos os arquivos e subPastas de relativePath
         closedir(dir);
 
         //########
         //#### O endereco do arquivo de saida sera o endereco da pasta contatenada com a extensao .huff
         char nameFileOut[256];//nome do arquivo de saida
-        strcpy(fileOut,argv[1]);
-        strcat(fileOut,".huff");
+        strcpy(nameFileOut,argv[1]);
+        strcat(nameFileOut,".huff");
         //######
 
 
@@ -484,13 +490,10 @@ int main(int argc, const char* argv[])
              }
         }while(hasNext(&it));//passa para o proximo e retorna 1.(se houver proximo), se não retorna 0.
 
-        fclose(fileOut);
+        fclose(fileFinal);
     }else{
         int len_adr=strlen(argv[1]);
-        int nivel=1;
-        if(argc>3){// ser tiver passado mais de 2 argumentos
-            nivel=atoi(argv[3]); //pega oo n
-        }
+
 
         if(strcmp(&(argv[1][len_adr-5]),".huff")==0){
             descompressAll(nivel,argv[1],argv[2]); // descompacta 1 arquivo (Pode ter uma pasta compactada)
